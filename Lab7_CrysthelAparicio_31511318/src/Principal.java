@@ -15,9 +15,9 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    ArrayList<swicht_1> s_lan = new ArrayList<>();
+    
     ArrayList<LAN> lan = new ArrayList<>();
-    swicht_1 s = new swicht_1();
+   
 
     public Principal() {
         initComponents();
@@ -183,6 +183,8 @@ public class Principal extends javax.swing.JFrame {
             lan.add(new LAN(ven_LAN, nombre_LAN.getText(), Integer.parseInt(v_trans_LAN.getText()),
                     Integer.parseInt(V_rec_LAN.getText())));
             ven_LAN.s = lan.get(lan.size()-1);
+            
+            ven_LAN.setVisible(true);
         } catch (Exception e) {
             System.out.println("Error!" + e);
         }

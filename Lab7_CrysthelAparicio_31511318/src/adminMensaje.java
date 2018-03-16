@@ -8,6 +8,6 @@
  *
  * @author COPECO -13
  */
-public class switch_2 {
+public class adminMensaje {
     
 }
