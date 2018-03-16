@@ -179,12 +179,10 @@ public class Principal extends javax.swing.JFrame {
     private void btnCrearSwitchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearSwitchMouseClicked
         // TODO add your handling code here:
         try {
-            //Ventana_LAN ventana_lan, String nombre, int v_transmicion, int v_recepcion, Router router
-            Ventana_LAN ven_LAN = new Ventana_LAN();
+            Ventana_LAN ven_LAN=new Ventana_LAN();
             lan.add(new LAN(ven_LAN, nombre_LAN.getText(), Integer.parseInt(v_trans_LAN.getText()),
-                    Integer.parseInt(V_rec_LAN.getText()), s.getRouter()));
-
-            ven_LAN.setVisible(true);
+                    Integer.parseInt(V_rec_LAN.getText())));
+            ven_LAN.s = lan.get(lan.size()-1);
         } catch (Exception e) {
             System.out.println("Error!" + e);
         }

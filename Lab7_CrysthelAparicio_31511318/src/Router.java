@@ -6,28 +6,27 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author COPECO -13
  */
 public class Router {
-    
+
     private String ip_router;
     private String mascara;
-    private swicht_1 swich1;
-     private int v_transf;
+    private LAN lan;
+    private int v_transf;
     private int v_recep;
-    
-    private ArrayList <Router> routers = new ArrayList<>(); 
+
+    private ArrayList<Router> routers = new ArrayList<>();
 
     public Router() {
     }
 
-    public Router(String ip_router, String mascara, swicht_1 swich1, int v_transf, int v_recep) {
+    public Router(String ip_router, String mascara, LAN lan, int v_transf, int v_recep) {
         this.ip_router = ip_router;
         this.mascara = mascara;
-        this.swich1 = swich1;
+        this.lan = lan;
         this.v_transf = v_transf;
         this.v_recep = v_recep;
     }
@@ -48,12 +47,12 @@ public class Router {
         this.mascara = mascara;
     }
 
-    public swicht_1 getSwich1() {
-        return swich1;
+    public LAN getLan() {
+        return lan;
     }
 
-    public void setSwich1(swicht_1 swich1) {
-        this.swich1 = swich1;
+    public void setLan(LAN lan) {
+        this.lan = lan;
     }
 
     public int getV_transf() {
@@ -79,11 +78,6 @@ public class Router {
     public void setRouters(ArrayList<Router> routers) {
         this.routers = routers;
     }
-
-        
-    @Override
-    public String toString() {
-        return "Router";
-    }
+ 
     
 }

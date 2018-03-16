@@ -18,17 +18,18 @@ public class Ventana_LAN extends javax.swing.JFrame {
      * Creates new form Ventana_LAN
      */
     ArrayList <Router> router = new ArrayList<>();
+    LAN s = new LAN();
     ArrayList <PC> pc = new ArrayList<>();
+    
     Router r_switch = new Router();
+    
     Router r = new Router();
+    
     int cont = 0;
-    swicht_1 s = new swicht_1();
-    DefaultTableModel modelo1 = new DefaultTableModel();
+    
+    
     public Ventana_LAN() {
         initComponents();
-        modelo1.addColumn("Dispositivo");
-        modelo1.addColumn("IP Adress");
-        modelo1.addColumn("Gateway");
     }
 
     /**
@@ -271,22 +272,17 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private void crear_routerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crear_routerMouseClicked
         // TODO add your handling code here:
         try {
-            router.add(new Router(ip_router.getText(), this.mascara_router.getText(), r_switch.getSwich1(),
-                    Integer.parseInt(vt_router.getText()),Integer.parseInt(vr_router.getText())));
-            /*Object row [] = {
-                "Router",ip_router.getText(),
-            };
+           Router router1 = new Router(ip_router.getText(), this.mascara_router.getText(), r_switch.getLan(),
+                    Integer.parseInt(vt_router.getText()), Integer.parseInt(vr_router.getText())); 
+            router.add(router1);
+            s.setRouter(router1);
+            router1.setLan(s);
+            Object row2[] ={"Router",ip_router.getText(),""};
             
-            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-            modelo.addRow(row);
+            
+            DefaultTableModel modelo=(DefaultTableModel)jTable1.getModel();
+            modelo.addRow(row2);
             jTable1.setModel(modelo);
-            */
-            Object [] newrow = new Object[3];
-            newrow[0] = "Router";
-            newrow[1] = ip_router.getText();
-            newrow[2] = " ";
-            modelo1.addRow(newrow);
-            System.out.println("");
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -296,24 +292,18 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private void crear_pcMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crear_pcMouseClicked
         // TODO add your handling code here:
         try {
-            pc.add(new PC(ip_pc.getText(), this.mascara_pc.getText(), s.getRouter().getIp_router()));
-            /*Object row [] = {
-                "PC",cont,ip_router.getText(),ip_router.getText(),getIp_router()
-            };
-           
-            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+           PC pc1 =new PC(ip_pc.getText(), mascara_pc.getText(), s.getRouter().getIp_router()); 
+             
+            pc.add(pc1);
+            
+             
+            Object row[] ={"PC"+cont,ip_router.getText(),s.getRouter().getIp_router()};
+             System.out.println(pc.size());
+             System.out.println(row);
+            
+            DefaultTableModel modelo=(DefaultTableModel)jTable1.getModel();
             modelo.addRow(row);
             jTable1.setModel(modelo);
-            
-            System.out.println("");
-          /*
-            
-            */  
-            Object [] newrow = new Object[3];
-            newrow[0] = "PC"+cont;
-            newrow[1] = ip_pc.getText();
-            newrow[2] = s.getRouter().getIp_router();
-            modelo1.addRow(newrow);
         } catch (Exception e) {
             e.printStackTrace();
         }

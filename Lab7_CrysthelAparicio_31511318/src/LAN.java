@@ -22,12 +22,11 @@ public class LAN {
     public LAN() {
     }
 
-    public LAN(Ventana_LAN ventana_lan, String nombre, int v_transmision, int v_recepcion, Router router) {
+    public LAN(Ventana_LAN ventana_lan, String nombre, int v_transmision, int v_recepcion) {
         this.ventana_lan = ventana_lan;
         this.nombre = nombre;
         this.v_transmision = v_transmision;
         this.v_recepcion = v_recepcion;
-        this.router = router;
     }
 
     public Ventana_LAN getVentana_lan() {
