@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -17,17 +18,15 @@ public class Ventana_LAN extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_LAN
      */
+    
     ArrayList <Router> router = new ArrayList<>();
     LAN s = new LAN();
     ArrayList <PC> pc = new ArrayList<>();
-    
     Router r_switch = new Router();
-    
     Router r = new Router();
-    
     int cont = 0;
-    
-    
+    ArrayList <Mensaje> mensajes = new ArrayList<>();
+    Mensaje mens;
     public Ventana_LAN() {
         initComponents();
     }
@@ -72,12 +71,12 @@ public class Ventana_LAN extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         enviar_mensaje = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        taContenido = new javax.swing.JTextArea();
+        ta_contenido = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        destino_mensaje = new javax.swing.JTextField();
-        origen_mensaje = new javax.swing.JTextField();
-        titulo_mensaje = new javax.swing.JTextField();
+        tf_destino = new javax.swing.JTextField();
+        tf_origen = new javax.swing.JTextField();
+        tf_titulo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -261,10 +260,15 @@ public class Ventana_LAN extends javax.swing.JFrame {
         jLabel14.setText("Titulo");
 
         enviar_mensaje.setText("Enviar");
+        enviar_mensaje.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                enviar_mensajeMouseClicked(evt);
+            }
+        });
 
-        taContenido.setColumns(20);
-        taContenido.setRows(5);
-        jScrollPane2.setViewportView(taContenido);
+        ta_contenido.setColumns(20);
+        ta_contenido.setRows(5);
+        jScrollPane2.setViewportView(ta_contenido);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -300,9 +304,9 @@ public class Ventana_LAN extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addComponent(destino_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(origen_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titulo_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tf_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_origen, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -322,14 +326,14 @@ public class Ventana_LAN extends javax.swing.JFrame {
                                 .addGap(36, 36, 36)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel11)
-                                    .addComponent(origen_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tf_origen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(27, 27, 27)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel12)
-                                    .addComponent(destino_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tf_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(47, 47, 47)
                                 .addComponent(jLabel14))
-                            .addComponent(titulo_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tf_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(62, 62, 62)
@@ -353,7 +357,7 @@ public class Ventana_LAN extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -391,7 +395,10 @@ public class Ventana_LAN extends javax.swing.JFrame {
         try {
            PC pc1 =new PC(ip_pc.getText(), mascara_pc.getText(), s.getRouter().getIp_router()); 
              
+           s.setPc(pc1);
             pc.add(pc1);
+           
+            
             
              
             Object row[] ={"PC"+cont,ip_router.getText(),s.getRouter().getIp_router()};
@@ -405,6 +412,39 @@ public class Ventana_LAN extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_crear_pcMouseClicked
+
+    private void enviar_mensajeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enviar_mensajeMouseClicked
+        // TODO add your handling code he
+          try {
+             boolean existe1=false;
+            boolean existe2=false;
+            
+            for (int i = 0; i < s.getPc().size(); i++) {
+               if(s.getPc().get(i).getIP().equals(tf_origen.getText())){
+                   existe1=true;
+               }
+            }
+            for (int i = 0; i < s.getPc().size(); i++) {
+               if(s.getPc().get(i).getIP().equals(tf_destino.getText())){
+                   existe2=true;
+               }
+            }
+            
+          if(existe1==true &&existe2==true){
+               mensajes.add(new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(),jTable2,s));
+//               System.out.println(mensajes);
+                mens=new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(),jTable2,s);
+               try {
+                  mens.start();
+              } catch (Exception e) {
+              }
+          }else{
+              JOptionPane.showMessageDialog(this, "No esta en el mismo switch");
+          }
+        } catch (Exception e) {
+        }
+          
+    }//GEN-LAST:event_enviar_mensajeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -444,7 +484,6 @@ public class Ventana_LAN extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crear_pc;
     private javax.swing.JButton crear_router;
-    private javax.swing.JTextField destino_mensaje;
     private javax.swing.JButton enviar_mensaje;
     private javax.swing.JTextField ip_pc;
     private javax.swing.JTextField ip_router;
@@ -470,13 +509,14 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    public javax.swing.JTable jTable2;
     private javax.swing.JTextField mascara_pc;
     private javax.swing.JTextField mascara_router;
-    private javax.swing.JTextField origen_mensaje;
     private javax.swing.JTextField protocolo_router;
-    private javax.swing.JTextArea taContenido;
-    private javax.swing.JTextField titulo_mensaje;
+    private javax.swing.JTextArea ta_contenido;
+    private javax.swing.JTextField tf_destino;
+    private javax.swing.JTextField tf_origen;
+    private javax.swing.JTextField tf_titulo;
     private javax.swing.JTextField vr_router;
     private javax.swing.JTextField vt_router;
     // End of variables declaration//GEN-END:variables

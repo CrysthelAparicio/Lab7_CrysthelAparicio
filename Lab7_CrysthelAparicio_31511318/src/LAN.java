@@ -6,26 +6,27 @@ import java.util.ArrayList;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author COPECO -13
  */
 public class LAN {
+
     private Ventana_LAN ventana_lan;
     private String nombre;
-    private int v_transmision;
+    private int v_transmicion;
     private int v_recepcion;
     private Router router;
-    private ArrayList<PC> pc = new ArrayList<>();
+    private ArrayList<PC> pc = new ArrayList();
 
     public LAN() {
     }
 
-    public LAN(Ventana_LAN ventana_lan, String nombre, int v_transmision, int v_recepcion) {
+    //nombre, velocidad de transmisión, velocidad de recepción, un router al que esta conectado y una lista de PC’s
+    public LAN(Ventana_LAN ventana_lan, String nombre, int v_transmicion, int v_recepcion) {
         this.ventana_lan = ventana_lan;
         this.nombre = nombre;
-        this.v_transmision = v_transmision;
+        this.v_transmicion = v_transmicion;
         this.v_recepcion = v_recepcion;
     }
 
@@ -45,12 +46,12 @@ public class LAN {
         this.nombre = nombre;
     }
 
-    public int getV_transmision() {
-        return v_transmision;
+    public int getV_transmicion() {
+        return v_transmicion;
     }
 
-    public void setV_transmision(int v_transmision) {
-        this.v_transmision = v_transmision;
+    public void setV_transmicion(int v_transmicion) {
+        this.v_transmicion = v_transmicion;
     }
 
     public int getV_recepcion() {
@@ -73,13 +74,13 @@ public class LAN {
         return pc;
     }
 
-    public void setPc(ArrayList<PC> pc) {
-        this.pc = pc;
+    public void setPc(PC pc1) {
+        this.pc.add(pc1);
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return nombre + "-" + v_recepcion + "-" + v_transmicion;
     }
-    
+
 }
