@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author COPECO -13
@@ -18,15 +17,18 @@ public class Ventana_LAN extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_LAN
      */
-    
-    ArrayList <Router> router = new ArrayList<>();
+    ArrayList<Router> router = new ArrayList<>();
     LAN s = new LAN();
-    ArrayList <PC> pc = new ArrayList<>();
+    ArrayList<PC> pc = new ArrayList<>();
     Router r_switch = new Router();
     Router r = new Router();
     int cont = 0;
-    ArrayList <Mensaje> mensajes = new ArrayList<>();
+    ArrayList<Mensaje> mensajes = new ArrayList<>();
     Mensaje mens;
+
+    admi_pc archivo_pc;
+    admi_router archivo_router;
+
     public Ventana_LAN() {
         initComponents();
     }
@@ -373,18 +375,22 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private void crear_routerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crear_routerMouseClicked
         // TODO add your handling code here:
         try {
-           Router router1 = new Router(ip_router.getText(), this.mascara_router.getText(), r_switch.getLan(),
-                    Integer.parseInt(vt_router.getText()), Integer.parseInt(vr_router.getText())); 
+            Router router1 = new Router(ip_router.getText(), this.mascara_router.getText(), r_switch.getLan(),
+                    Integer.parseInt(vt_router.getText()), Integer.parseInt(vr_router.getText()));
             router.add(router1);
             s.setRouter(router1);
             router1.setLan(s);
-            Object row2[] ={"Router",ip_router.getText(),""};
-            
-            
-            DefaultTableModel modelo=(DefaultTableModel)jTable1.getModel();
+            Object row2[] = {"Router", ip_router.getText(), ""};
+
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
             modelo.addRow(row2);
             jTable1.setModel(modelo);
-            
+
+            admi_router ar = new admi_router("./Router.cbm");
+            ar.cargarArchivo();
+            ar.setRouter(router1);
+            ar.escribirArchivo();
+            JOptionPane.showMessageDialog(this, "router creada exitosamente y en binario tambien");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -393,21 +399,25 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private void crear_pcMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crear_pcMouseClicked
         // TODO add your handling code here:
         try {
-           PC pc1 =new PC(ip_pc.getText(), mascara_pc.getText(), s.getRouter().getIp_router()); 
-             
-           s.setPc(pc1);
+            PC pc1 = new PC(ip_pc.getText(), mascara_pc.getText(), s.getRouter().getIp_router());
+            //archivo_pc.setPc(pc1);
+            s.setPc(pc1);
             pc.add(pc1);
-           
-            
-            
-             
-            Object row[] ={"PC"+cont,ip_router.getText(),s.getRouter().getIp_router()};
-             System.out.println(pc.size());
-             System.out.println(row);
-            
-            DefaultTableModel modelo=(DefaultTableModel)jTable1.getModel();
+
+            Object row[] = {"PC" + cont, ip_router.getText(), s.getRouter().getIp_router()};
+            System.out.println(pc.size());
+            System.out.println(row);
+
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
             modelo.addRow(row);
             jTable1.setModel(modelo);
+
+            admi_pc ap = new admi_pc("./PC.cbm");
+            ap.cargarArchivo();
+            ap.setPc(pc1);
+            ap.escribirArchivo();
+
+            JOptionPane.showMessageDialog(this, "pc creada exitosamente y en archivo binario tambien");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -415,35 +425,35 @@ public class Ventana_LAN extends javax.swing.JFrame {
 
     private void enviar_mensajeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enviar_mensajeMouseClicked
         // TODO add your handling code he
-          try {
-             boolean existe1=false;
-            boolean existe2=false;
-            
+        try {
+            boolean existe1 = false;
+            boolean existe2 = false;
+
             for (int i = 0; i < s.getPc().size(); i++) {
-               if(s.getPc().get(i).getIP().equals(tf_origen.getText())){
-                   existe1=true;
-               }
+                if (s.getPc().get(i).getIP().equals(tf_origen.getText())) {
+                    existe1 = true;
+                }
             }
             for (int i = 0; i < s.getPc().size(); i++) {
-               if(s.getPc().get(i).getIP().equals(tf_destino.getText())){
-                   existe2=true;
-               }
+                if (s.getPc().get(i).getIP().equals(tf_destino.getText())) {
+                    existe2 = true;
+                }
             }
-            
-          if(existe1==true &&existe2==true){
-               mensajes.add(new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(),jTable2,s));
+
+            if (existe1 == true && existe2 == true) {
+                mensajes.add(new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(), jTable2, s));
 //               System.out.println(mensajes);
-                mens=new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(),jTable2,s);
-               try {
-                  mens.start();
-              } catch (Exception e) {
-              }
-          }else{
-              JOptionPane.showMessageDialog(this, "No esta en el mismo switch");
-          }
+                mens = new Mensaje(tf_origen.getText(), tf_destino.getText(), tf_titulo.getText(), ta_contenido.getText(), jTable2, s);
+                try {
+                    mens.start();
+                } catch (Exception e) {
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No esta en el mismo switch");
+            }
         } catch (Exception e) {
         }
-          
+
     }//GEN-LAST:event_enviar_mensajeMouseClicked
 
     /**
@@ -521,7 +531,4 @@ public class Ventana_LAN extends javax.swing.JFrame {
     private javax.swing.JTextField vt_router;
     // End of variables declaration//GEN-END:variables
 
-    private Object getIp_router() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /*
@@ -10,14 +11,14 @@ import java.util.ArrayList;
  *
  * @author COPECO -13
  */
-public class Router {
+public class Router  implements Serializable{
 
     private String ip_router;
     private String mascara;
     private LAN lan;
     private int v_transf;
     private int v_recep;
-
+   private static final long SerialVersionUID=666L;
     private ArrayList<Router> routers = new ArrayList<>();
 
     public Router() {

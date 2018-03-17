@@ -111,34 +111,29 @@ public class Mensaje extends Thread {
         String estado2 = "Error";
         System.out.println(lan.getV_recepcion());
         if (avanzar) {
-            //recepcion de swicth
             try {
-                Thread.sleep(lan.getV_recepcion());
-                Object row[] = {titulo, lan.getNombre(), lan.getV_recepcion(), "Entregado"};
-//          
-                DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-                modelo.addRow(row);
-                tabla.setModel(modelo);
+                Thread.sleep(lan.getV_recepcion() * 1000);
+
             } catch (InterruptedException e) {
             }
 
-            //transcicion de swicth
-            try {
-                Thread.sleep(lan.getV_transmicion());
-            } catch (InterruptedException e) {
-            }
-
-            //recepcion receptor
             Object row[] = {titulo, lan.getNombre(), lan.getV_recepcion(), "Entregado"};
-//          
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
             modelo.addRow(row);
             tabla.setModel(modelo);
-
             try {
-                Thread.sleep(lan.getV_recepcion());
-            } catch (Exception e) {
+                Thread.sleep(lan.getV_transmicion() * 1000);
+            } catch (InterruptedException e) {
             }
+            Object row2[] = {titulo, "PC con IP:" + ip_destino, lan.getV_transmicion(), "Entregado"};
+            modelo.addRow(row2);
+            tabla.setModel(modelo);
+            try {
+                Thread.sleep(300);
+
+            } catch (InterruptedException e) {
+            }
+//               
         }
     }
 }
