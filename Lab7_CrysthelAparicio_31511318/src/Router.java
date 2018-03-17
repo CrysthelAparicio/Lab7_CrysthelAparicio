@@ -11,25 +11,34 @@ import java.util.ArrayList;
  *
  * @author COPECO -13
  */
-public class Router  implements Serializable{
+public class Router implements Serializable {
 
     private String ip_router;
     private String mascara;
     private LAN lan;
-    private int v_transf;
+    private int v_trans;
     private int v_recep;
-   private static final long SerialVersionUID=666L;
-    private ArrayList<Router> routers = new ArrayList<>();
+    private Router rou;
+    private ArrayList<Router> routers = new ArrayList();
+    private static final long SerialVersionUID = 777L;//version
 
     public Router() {
     }
 
-    public Router(String ip_router, String mascara, LAN lan, int v_transf, int v_recep) {
+    public Router(String ip_router, String mascara, LAN lan, int v_trans, int v_recep) {
         this.ip_router = ip_router;
         this.mascara = mascara;
         this.lan = lan;
-        this.v_transf = v_transf;
+        this.v_trans = v_trans;
         this.v_recep = v_recep;
+    }
+
+    public Router getRou() {
+        return rou;
+    }
+
+    public void setRou(Router rou) {
+        this.rou = rou;
     }
 
     public String getIp_router() {
@@ -56,12 +65,12 @@ public class Router  implements Serializable{
         this.lan = lan;
     }
 
-    public int getV_transf() {
-        return v_transf;
+    public int getV_trans() {
+        return v_trans;
     }
 
-    public void setV_transf(int v_transf) {
-        this.v_transf = v_transf;
+    public void setV_trans(int v_trans) {
+        this.v_trans = v_trans;
     }
 
     public int getV_recep() {
@@ -79,6 +88,10 @@ public class Router  implements Serializable{
     public void setRouters(ArrayList<Router> routers) {
         this.routers = routers;
     }
- 
-    
+
+    @Override
+    public String toString() {
+        return "Router";
+    }
+
 }

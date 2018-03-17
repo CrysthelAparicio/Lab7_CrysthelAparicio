@@ -1,5 +1,10 @@
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,13 +20,20 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    
     ArrayList<LAN> lan = new ArrayList<>();
-   
+    Router R = new Router();
+    admi_router rou = new admi_router();
 
     public Principal() {
         initComponents();
-
+       setIconImage(new ImageIcon(getClass().getResource("./imagenes/red.png")).getImage());
+        ((JPanel) getContentPane()).setOpaque(false);
+        ImageIcon uno = new ImageIcon(this.getClass().getResource("./imagenes/cisco.jpg"));
+        JLabel fondo = new JLabel();
+        fondo.setIcon(uno);
+        getLayeredPane().add(fondo, JLayeredPane.FRAME_CONTENT_LAYER);
+        fondo.setBounds(0, 0, uno.getIconWidth(), uno.getIconHeight());
+        
     }
 
     /**
@@ -46,8 +58,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btEnlazarrWan = new javax.swing.JButton();
-        tf_router = new javax.swing.JTextField();
-        tf_router2 = new javax.swing.JTextField();
+        rou1 = new javax.swing.JTextField();
+        rou2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,6 +130,17 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setText("IP Router 2");
 
         btEnlazarrWan.setText("Enlazar WAN");
+        btEnlazarrWan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btEnlazarrWanMouseClicked(evt);
+            }
+        });
+
+        rou1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rou1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,8 +153,8 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_router2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_router, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rou2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rou1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(206, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,11 +167,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(115, 115, 115)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tf_router, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rou1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(tf_router2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rou2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                 .addComponent(btEnlazarrWan)
                 .addGap(94, 94, 94))
@@ -179,11 +202,11 @@ public class Principal extends javax.swing.JFrame {
     private void btnCrearSwitchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearSwitchMouseClicked
         // TODO add your handling code here:
         try {
-            Ventana_LAN ven_LAN=new Ventana_LAN();
+            Ventana_LAN ven_LAN = new Ventana_LAN();
             lan.add(new LAN(ven_LAN, nombre_LAN.getText(), Integer.parseInt(v_trans_LAN.getText()),
                     Integer.parseInt(V_rec_LAN.getText())));
-            ven_LAN.s = lan.get(lan.size()-1);
-            
+            ven_LAN.s = lan.get(lan.size() - 1);
+
             ven_LAN.setVisible(true);
         } catch (Exception e) {
             System.out.println("Error!" + e);
@@ -193,6 +216,50 @@ public class Principal extends javax.swing.JFrame {
     private void V_rec_LANActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_V_rec_LANActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_V_rec_LANActionPerformed
+
+    private void btEnlazarrWanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btEnlazarrWanMouseClicked
+        // TODO add your handling code here:
+        rou.getLista_router();
+
+        boolean existe1 = false;
+        boolean existe2 = false;
+
+        for (int i = 0; i < rou.getLista_router().size(); i++) {
+            if (rou.getLista_router().get(i).equals(rou1.getText())) {
+                existe1 = true;
+            }
+        }
+        for (int i = 0; i < rou.getLista_router().size(); i++) {
+            if (rou.getLista_router().get(i).equals(rou2.getText())) {
+                existe2 = true;
+            }
+        }
+
+        if (existe1 == true && existe2 == true) {
+            for (int i = 0; i < rou.getLista_router().size(); i++) {
+                if (rou.getLista_router().get(i).equals(rou1.getText())) {
+                    R.setRou(rou.getLista_router().get(i));
+                    System.out.println(R.getRou());
+                }
+            }
+            for (int i = 0; i < rou.getLista_router().size(); i++) {
+                if (rou.getLista_router().get(i).equals(rou2.getText())) {
+                    R.setRou(rou.getLista_router().get(i));
+                    System.out.println(R.getRou());
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "Routers enlazados");
+        } else {
+            JOptionPane.showMessageDialog(this, "Routers no enlazados");
+        }
+
+
+    }//GEN-LAST:event_btEnlazarrWanMouseClicked
+
+    private void rou1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rou1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rou1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,8 +309,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField nombre_LAN;
-    private javax.swing.JTextField tf_router;
-    private javax.swing.JTextField tf_router2;
+    private javax.swing.JTextField rou1;
+    private javax.swing.JTextField rou2;
     private javax.swing.JTextField v_trans_LAN;
     // End of variables declaration//GEN-END:variables
 }
